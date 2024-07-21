@@ -36,7 +36,7 @@ async function store(request, response) {
         // SAVE IN DB
         await EmailOtp.create({email: user.email.toLocaleString(), otp});
         // Send Email
-        await new SendEmailClass('OTP for LIFA! email verification',content,[{email: user.email}],null).sendEmail();
+        await new SendEmailClass('OTP for Wash Agent! email verification',content,[{email: user.email}],null).sendEmail();
 
         response.send(user);
     }catch (e){

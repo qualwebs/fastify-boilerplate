@@ -1,6 +1,7 @@
 const LoginController = require('../controllers/auth/LoginController');
 const SignupController = require('../controllers/auth/SignupController');
 const VerificationController = require('../controllers/auth/VerificationController');
+const ResetPasswordController = require('../controllers/auth/ResetPasswordController');
 
 const signupSchema = {
     type: 'object',
@@ -49,6 +50,7 @@ async function userRoutes(app) {
     app.patch('/otp',{schema: {body: otpVerificationSchema}}, VerificationController.update);
     app.post('/otp', VerificationController.store);
     app.post('/login', LoginController.store);
+    app.patch('/password', ResetPasswordController.replace);
 }
 
 module.exports = userRoutes;

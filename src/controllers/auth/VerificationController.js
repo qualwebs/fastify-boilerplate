@@ -19,17 +19,17 @@ async function update(request, response) {
 
         if (isValidOtp != null) {
             await EmailOtp.destroy({where: {email: data.email.toLowerCase()}});
-            const user = await User.findOne({where: {email: data.email.toLowerCase()}});
-            if (user) {
-                await user.update({status: 'active', email_verified_at: moment().format('YYYY-MM-DD')});
-                await user.save();
+            await user.update({status: 'active', email_verified_at: moment().format('YYYY-MM-DD')});
+            await user.save();
 
-                const token = await new AuthService(user).generateToken();
-                response.send({data: {user, token}});
-            }
-            response.code(400).send({status: 400, data: {}, message: "User not found in system."});
+            const token = await new AuthService(user).generateToken();
+            response.send({data: {user, token}});
         }
-        response.code(400).send({status: 400, data: {}, message: "This OTP is no longer valid please request a new one."});
+        response.code(400).send({
+            status: 400,
+            data: {},
+            message: "This OTP is no longer valid please request a new one."
+        });
     } catch (e) {
         response.code(500).send({status: 500, message: e.message});
     }
@@ -44,7 +44,7 @@ async function store(request, response) {
             response.code(400).send({status: 400, data: {}, message: "Invalid account"});
         }
 
-        if(!data.email){
+        if (!data.email) {
             response.code(400).send({status: 400, data: {}, message: "Email is required."});
         }
 
@@ -58,7 +58,7 @@ async function store(request, response) {
         // SAVE IN DB
         await EmailOtp.create({email: data.email.toLocaleString(), otp});
         // Send Email
-        await new SendEmailClass('OTP for LIFA! email verification',content,[{email: user.email}],null).sendEmail();
+        await new SendEmailClass('OTP for Wash Agent! email verification', content, [{email: user.email}], null).sendEmail();
 
         response.code(201).send();
     } catch (e) {
