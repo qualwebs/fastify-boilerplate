@@ -12,7 +12,7 @@ async function update(request, response) {
         const user = await User.findOne({where: {email: data.email.toLowerCase()}});
 
         if (!user) {
-            response.code(400).send({status: 400, data: {}, message: "Invalid account"});
+            return response.code(400).send({status: 400, data: {}, message: "Invalid account"});
         }
 
         const isValidOtp = await EmailOtp.findOne({where: {email: data.email.toLowerCase(), otp: data.otp}});
@@ -23,15 +23,15 @@ async function update(request, response) {
             await user.save();
 
             const token = await new AuthService(user).generateToken();
-            response.send({data: {user, token}});
+            return response.send({data: {user, token}});
         }
-        response.code(400).send({
+        return response.code(400).send({
             status: 400,
             data: {},
             message: "This OTP is no longer valid please request a new one."
         });
     } catch (e) {
-        response.code(500).send({status: 500, message: e.message});
+        return response.code(500).send({status: 500, message: e.message});
     }
 }
 
@@ -41,11 +41,11 @@ async function store(request, response) {
         const user = await User.findOne({where: {email: data.email.toLowerCase()}});
 
         if (!user) {
-            response.code(400).send({status: 400, data: {}, message: "Invalid account"});
+            return response.code(400).send({status: 400, data: {}, message: "Invalid account"});
         }
 
         if (!data.email) {
-            response.code(400).send({status: 400, data: {}, message: "Email is required."});
+            return response.code(400).send({status: 400, data: {}, message: "Email is required."});
         }
 
         // SEND OTP
@@ -60,9 +60,9 @@ async function store(request, response) {
         // Send Email
         await new SendEmailClass('OTP for Wash Agent! email verification', content, [{email: user.email}], null).sendEmail();
 
-        response.code(201).send();
+        return response.code(201).send();
     } catch (e) {
-        response.code(500).send({status: 500, message: e.message});
+        return response.code(500).send({status: 500, message: e.message});
     }
 }
 

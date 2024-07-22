@@ -1,8 +1,8 @@
 const userService = require('../services/user/UserService');
 
-async function list(request, reply) {
+async function list(request, response) {
     const users = request.user;
-    reply.send(users);
+    return response.send(users);
 }
 
 module.exports = {

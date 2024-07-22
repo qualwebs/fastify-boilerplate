@@ -13,7 +13,7 @@ async function store(request, response) {
         if (email) {
             let isEmailExist = await User.count({where: { email: email.toLowerCase() }});
             if (isEmailExist) {
-                response.code(422).send({status: 500, message: 'Email already exist!'});
+                return response.code(422).send({status: 500, message: 'Email already exist!'});
             }
         }
 
@@ -38,9 +38,9 @@ async function store(request, response) {
         // Send Email
         await new SendEmailClass('OTP for Wash Agent! email verification',content,[{email: user.email}],null).sendEmail();
 
-        response.send(user);
+        return response.send(user);
     }catch (e){
-        response.code(500).send({status: 500, message: e.message});
+        return response.code(500).send({status: 500, message: e.message});
     }
 }
 

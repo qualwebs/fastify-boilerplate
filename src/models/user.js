@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     phone: DataTypes.STRING,
     password: DataTypes.STRING,
-    status: DataTypes.ENUM('active', 'deactivated'),
+    status: DataTypes.ENUM('active', 'inactive'),
     email_verified_at: DataTypes.DATE,
     phone_verified_at: DataTypes.DATE,
   }, {

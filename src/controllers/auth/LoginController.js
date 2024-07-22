@@ -15,14 +15,14 @@ async function store(request, response) {
             attributes: {include: ['password']}
         });
         if(user == null){
-            response.code(400).send({status: 400, message: "Email does not exist in the system."});
+            return response.code(400).send({status: 400, message: "Email does not exist in the system."});
         }
         if (user.status === 'inactive' && user.email_verified_at !== null) {
-            response.code(400).send({status: 400, message: "Your account has been deactivated. Please contact support for assistance."});
+            return response.code(400).send({status: 400, message: "Your account has been deactivated. Please contact support for assistance."});
         }
 
         if (!data.password) {
-            response.code(400).send({status: 500, message: 'Password required.'});
+            return response.code(400).send({status: 500, message: 'Password required.'});
         }
         // Load hash from your password DB.
         let passwordMatch = await bcrypt.compareSync(data.password, user.password);
@@ -37,16 +37,16 @@ async function store(request, response) {
                 // SAVE IN DB
                 await EmailOtp.create({email: user.email.toLocaleString(), otp});
                 await new SendEmailClass('OTP for Car Wash! email verification.',content,[{email: user.email}],null).sendEmail();
-                response.send({data: {}, action: 'verify_email', message: "Verify your email address to continue."});
+                return response.send({data: {}, action: 'verify_email', message: "Verify your email address to continue."});
             }
 
             const token = await new AuthService(user).generateToken();
-            response.send({data: {user, token}, message: "Login success."});
+            return response.send({data: {user, token}, message: "Login success."});
         } else {
-            response.code(500).send({status: 500, message: 'Incorrect password'});
+            return response.code(500).send({status: 500, message: 'Incorrect password'});
         }
     }catch (e) {
-        response.code(500).send({status: 500, message: e.message});
+        return response.code(500).send({status: 500, message: e.message});
     }
 }
 

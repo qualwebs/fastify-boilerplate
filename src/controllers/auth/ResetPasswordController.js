@@ -13,7 +13,7 @@ async function replace(request, response) {
         const user = await User.findOne({where: {email: data.email.toLowerCase()}});
 
         if (!user) {
-            response.code(400).send({status: 400, data: {}, message: "Invalid account"});
+            return response.code(400).send({status: 400, data: {}, message: "Invalid account"});
         }
 
         const isValidOtp = await EmailOtp.findOne({where: {email: data.email.toLowerCase(), otp: data.otp}});
@@ -26,13 +26,13 @@ async function replace(request, response) {
                 await user.update({password: hashedPassword});
                 await user.save();
 
-                response.send({data: {}, message: "Password updated successfully, Please login to continue."});
+                return response.send({data: {}, message: "Password updated successfully, Please login to continue."});
             }
-            response.code(400).send({status: 400, data: {}, message: "Password and confirm password not matched."});
+            return response.code(400).send({status: 400, data: {}, message: "Password and confirm password not matched."});
         }
-        response.code(400).send({status: 400, data: {}, message: "This OTP is no longer valid please request a new one."});
+        return response.code(400).send({status: 400, data: {}, message: "This OTP is no longer valid please request a new one."});
     } catch (e) {
-        response.code(500).send({status: 500, message: e.message});
+        return response.code(500).send({status: 500, message: e.message});
     }
 }
 
