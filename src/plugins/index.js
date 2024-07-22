@@ -2,6 +2,7 @@
 const fastifyPlugin = require('fastify-plugin');
 const fastifyCors = require('@fastify/cors');
 const fastifySwagger = require('@fastify/swagger');
+const authPlugin = require('./auth');
 
 async function plugins(app) {
     app.register(fastifyCors, {
@@ -19,6 +20,12 @@ async function plugins(app) {
         },
         exposeRoute: true,
     });
+
+    // Register JWT plugin if using JWT
+    app.register(require('@fastify/jwt'), {
+        secret: process.env.JWT_SECRET
+    });
+    app.register(authPlugin);
 }
 
 // Export the plugin wrapped with fastify-plugin

@@ -1,7 +1,8 @@
-const {User} = require('../../models/user');
+const db = require('../../models/index');
+const User = db.User;
 
 async function getAllUsers() {
-    return await User.find();
+    return await User.findAll();
 }
 
 module.exports = {

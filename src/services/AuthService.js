@@ -12,10 +12,8 @@ module.exports = class AuthService {
     async generateToken() {
         const token = jwt.sign({
             id: this.user.id,
-            microsoft_id: this.user.microsoft_id,
             email: this.user.email,
             name: this.user.name,
-            mobilePhone: this.user?.mobilePhone,
             issued: Date.now(),
             expires: new Date(new Date().setDate(new Date().getDate() + 7))
         }, process.env.JWT_SECRET);

@@ -1,7 +1,7 @@
 const userService = require('../services/user/UserService');
 
 async function list(request, reply) {
-    const users = await userService.getAllUsers();
+    const users = request.user;
     reply.send(users);
 }
 
