@@ -2,6 +2,7 @@ const LoginController = require('../controllers/auth/LoginController');
 const SignupController = require('../controllers/auth/SignupController');
 const VerificationController = require('../controllers/auth/VerificationController');
 const ResetPasswordController = require('../controllers/auth/ResetPasswordController');
+const GoogleLoginController = require('../controllers/auth/GoogleLoginController');
 
 const signupSchema = {
     type: 'object',
@@ -51,6 +52,7 @@ async function userRoutes(app) {
     app.post('/otp', VerificationController.store);
     app.post('/login', LoginController.store);
     app.patch('/password', ResetPasswordController.replace);
+    app.post('/google', GoogleLoginController.store);
 }
 
 module.exports = userRoutes;

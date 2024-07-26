@@ -12,7 +12,7 @@ async function store(request, response) {
         //Validate Email
         if (email) {
             let isEmailExist = await User.count({where: { email: email.toLowerCase() }});
-            if (isEmailExist) {
+            if (isEmailExist > 0) {
                 return response.code(422).send({status: 500, message: 'Email already exist!'});
             }
         }
