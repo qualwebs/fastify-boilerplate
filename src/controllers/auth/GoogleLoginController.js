@@ -1,10 +1,9 @@
 const SocialLogin = require('../../utils/SocialLogin');
-const moment = require('moment/moment');
 const db = require('../../models/index');
 const User = db.User;
-const EmailOtp = db.EmailOtp;
 const bcrypt = require('bcrypt');
 const AuthService = require("../../services/AuthService");
+const moment = require('moment');
 
 module.exports = {
     store: async (request, response) => {
