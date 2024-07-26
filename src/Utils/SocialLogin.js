@@ -1,9 +1,4 @@
-const axios = require("axios");
-const querystring = require('querystring');
-const {TwitterApi} = require('twitter-api-v2');
-const TWITTER_CONSUMER_KEY = 'CsbQBAC2EDu9mqVthDZieniGJ';
-const TWITTER_CONSUMER_SECRET = 'n1uPtfjc8X1vPZVuzI2iDR8yIkryGhl9OjwqWcHd49EIZGwWrs';
-const CALLBACK_URL = 'http://localhost:4200/auth/twitter/callback';
+const axios = require('axios');
 
 
 // CLIENT SECRET _Lgsp2kus9V3rtzxfgjvIBTrm4iq8Ux_BZjtdf199S3T4gVrnO
