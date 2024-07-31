@@ -8,11 +8,16 @@ const moment = require('moment');
 module.exports = {
     store: async (request, response) => {
         try {
-            const userData = await new SocialLogin(request.body.identy_token).loginWithApple();
-
-            let user = await User.findOne({where: {apple_id: userData.sub}});
+            if(!request.body.user_identifier){
+                throw new Error('User identifier is required field.');
+            }
+            let user = await User.findOne({where: {apple_id: request.body.user_identifier}});
 
             if(!user){
+                if(!request.body.identy_token){
+                    throw new Error('Identity token is required field.');
+                }
+                const userData = await new SocialLogin(request.body.identy_token).loginWithApple();
                 let hashedPassword = await bcrypt.hashSync(userData.sub, 10);
                 user = await User.create({
                     name: request.body.name,
