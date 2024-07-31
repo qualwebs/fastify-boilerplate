@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.ENUM('active', 'inactive'),
     email_verified_at: DataTypes.DATE,
     phone_verified_at: DataTypes.DATE,
+    google_id: DataTypes.STRING,
+    apple_id: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',

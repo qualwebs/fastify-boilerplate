@@ -35,6 +35,14 @@ module.exports = {
         allowNull: true,
         defaultValue: null
       },
+      google_id: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      apple_id: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
