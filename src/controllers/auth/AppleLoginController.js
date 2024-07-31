@@ -24,7 +24,8 @@ module.exports = {
                     email: userData.email.toString(),
                     password: hashedPassword,
                     email_verified_at: moment().format('YYYY-MM-DD'),
-                    apple_id: userData.sub
+                    apple_id: userData.sub,
+                    status: 'active'
                 });
                 delete user.dataValues.password;
             }
