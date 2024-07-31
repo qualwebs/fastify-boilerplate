@@ -20,8 +20,10 @@ module.exports = {
                     name: userData.data.name,
                     email: userData.data.email.toString(),
                     password: hashedPassword,
-                    email_verified_at: moment().format('YYYY-MM-DD')
+                    email_verified_at: moment().format('YYYY-MM-DD'),
+                    google_id: userData.data.sub
                 });
+                delete user.dataValues.password;
             }
 
             const token = await new AuthService(user).generateToken();

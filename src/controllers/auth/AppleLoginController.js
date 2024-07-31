@@ -8,20 +8,20 @@ const moment = require('moment');
 module.exports = {
     store: async (request, response) => {
         try {
-            const userData = await new SocialLogin(request.body.token).loginWithGoogle();
-            let user = await User.findOne({where: {'email': userData.data.email.toLowerCase()}});
+            const userData = await new SocialLogin(request.body.identy_token).loginWithApple();
 
-            if(user){
-                // UPDATE USER
-                await User.update({id: user.id},{where: {'googleId': userData.data.sub}});
-            }else{
-                let hashedPassword = await bcrypt.hashSync(userData.data.sub, 10);
+            let user = await User.findOne({where: {apple_id: userData.sub}});
+
+            if(!user){
+                let hashedPassword = await bcrypt.hashSync(userData.sub, 10);
                 user = await User.create({
-                    name: userData.data.name,
-                    email: userData.data.email.toString(),
+                    name: request.body.name,
+                    email: userData.email.toString(),
                     password: hashedPassword,
-                    email_verified_at: moment().format('YYYY-MM-DD')
+                    email_verified_at: moment().format('YYYY-MM-DD'),
+                    apple_id: userData.sub
                 });
+                delete user.dataValues.password;
             }
 
             const token = await new AuthService(user).generateToken();

@@ -1,7 +1,5 @@
 const axios = require('axios');
-
-
-// CLIENT SECRET _Lgsp2kus9V3rtzxfgjvIBTrm4iq8Ux_BZjtdf199S3T4gVrnO
+const jwt = require('jsonwebtoken')
 
 module.exports = class SocialLogin
 {
@@ -12,5 +10,14 @@ module.exports = class SocialLogin
     async loginWithGoogle()
     {
         return await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${this.token}`);
+    }
+
+    async loginWithApple()
+    {
+        try{
+            return await jwt.decode(this.token);
+        }catch (e){
+            throw new Error(e.toString());
+        }
     }
 }
